@@ -1,0 +1,35 @@
+<meta charset=utf-8 content="initial-scale=yes"name=viewport>
+<title>JS DOM IC</title>
+<body style="font:16px/24px menlo,consolas,monospace;white-space:pre"><script>{
+let elements = Array(1000000);
+for (let i = 0; i < 1000000; ++i)
+  elements[i] = document.createElement("i");
+
+let run =()=> {
+  let i = elements.length, p = performance.now();
+  while (elements[--i].id, i);
+  return performance.now() - p;
+}
+
+// warm up
+run();
+run();
+
+let monoDOM = run();
+elements[elements.length - 1] = document.createElement("div");
+let poly2DOM = run();
+elements[elements.length - 2] = document.createElement("span");
+let poly3DOM = run();
+elements[elements.length - 3] = document.createElement("p");
+let poly4DOM = run();
+elements[elements.length - 4] = document.createElement("a");
+let megaDOM = run();
+
+document.body.append(`${navigator.userAgent}
+DOM[i].id x1000000
+Fast monoDOM(b):              ${monoDOM}
+     polyDOM(i,div):          ${poly2DOM}
+     polyDOM(i,div,span):     ${poly3DOM}
+     polyDOM(i,div,span,p):   ${poly4DOM}
+Slow megaDOM(i,div,span,p,a): ${megaDOM}`);
+}</script><a href=//github.com/ariamaranai/web-code-benchmarks/js-dom-ic/blob/main/index.htm>src
